@@ -3,7 +3,6 @@ import tmi from "tmi.js";
 
 const db = new Database("crashes.sqlite");
 const twitch = new tmi.Client({
-    options: { debug: true },
     channels: ["index_"],
     identity: {
         username: "cstvcrashometer",
