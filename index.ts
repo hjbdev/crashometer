@@ -1,5 +1,6 @@
 import { Database } from "bun:sqlite";
 import tmi from "tmi.js";
+import { formatDistanceToNow } from 'date-fns';
 
 const db = new Database("crashes.sqlite");
 const twitch = new tmi.Client({
@@ -35,6 +36,18 @@ twitch.on("message", (channel, tags, message, self) => {
         // Fetch the count of crashes from the database
         const count = db.query("SELECT COUNT(*) as count FROM crashes").get().count;
         twitch.say(channel, `CSTV's had a crash ${count} times!`);
+        return;
+    }
+
+    if (message.startswith("!lastcrash")) {
+        const lastCrash = db.query("SELECT * FROM crashes ORDER BY id DESC LIMIT 1").get();
+        if (lastCrash) {
+            const lastCrashTime = new Date(lastCrash.timestamp);
+            const timeAgo = formatDistanceToNow(lastCrashTime, { addSuffix: true });
+            twitch.say(channel, `The last crash was ${timeAgo}`);
+        } else {
+            twitch.say(channel, "No crashes recorded yet.");
+        }
         return;
     }
 
