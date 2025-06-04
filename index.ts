@@ -4,7 +4,7 @@ import tmi from "tmi.js";
 const db = new Database("crashes.sqlite");
 const twitch = new tmi.Client({
     options: { debug: true },
-    channels: ["RichardLewisReports"],
+    channels: ["index_"],
     identity: {
         username: "cstvcrashometer",
         password: import.meta.env.TWITCH_OAUTH_TOKEN,
