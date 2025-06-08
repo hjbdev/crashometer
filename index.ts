@@ -40,7 +40,7 @@ twitch.on("message", (channel, tags, message, self) => {
         return;
     }
 
-    if (message.startswith("!lastcrash")) {
+    if (message.startsWith("!lastcrash")) {
         const lastCrash = db.query("SELECT * FROM crashes ORDER BY id DESC LIMIT 1").get();
         if (lastCrash) {
             const lastCrashTime = new Date(lastCrash.timestamp);
