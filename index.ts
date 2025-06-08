@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS crashes (
 );
 `);
 
-let lastPublicResponse = null;
+let lastPublicResponse: number | null = null;
 
 twitch.connect();
 
@@ -30,12 +30,13 @@ twitch.on("message", (channel, tags, message, self) => {
 
     if (message.startsWith("!crashcount")) {
         if (lastPublicResponse && Date.now() - lastPublicResponse < 5000) {
-            // If the last public response was less than 3 second ago, ignore this command
+            // If the last public response was less than 5 seconds ago, ignore this command
             return;
         }
         // Fetch the count of crashes from the database
         const count = db.query("SELECT COUNT(*) as count FROM crashes").get().count;
         twitch.say(channel, `CSTV's had a crash ${count} times!`);
+        lastPublicResponse = Date.now(); // Add this line
         return;
     }
 
