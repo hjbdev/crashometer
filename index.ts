@@ -28,7 +28,7 @@ twitch.on("message", (channel, tags, message, self) => {
 
     if (!message.startsWith("!")) return; // Ignore non-command messages
 
-    if (message.startsWith("!crashcount")) {
+    if (message.startsWith("!crashcount") || message.startsWith("!crashes")) {
         if (lastPublicResponse && Date.now() - lastPublicResponse < 5000) {
             // If the last public response was less than 5 seconds ago, ignore this command
             return;
